@@ -1,0 +1,521 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--=====================================
+                    META TAG PART START
+        =======================================-->
+        <!-- REQUIRE META -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- AUTHOR META -->
+        <meta name="author" content="mironcoder">
+        <meta name="email" content="mironcoder@gmail.com">
+        <meta name="profile" content="https://themeforest.net/user/mironcoder">
+
+        <!-- TEMPLATE META -->
+        <meta name="name" content="Greeny">
+        <meta name="title" content="Greeny - eCommerce HTML Template">
+        <meta name="keywords" content="organic, food, shop, ecommerce, store, html, bootstrap, template, agriculture, vegetables, webshop, farm, grocery, natural, online store">
+        <!--=====================================
+                    META-TAG PART END
+        =======================================-->
+
+        <!-- WEBPAGE TITLE -->
+        <title>Greeny - Order History</title>
+
+        <!--=====================================
+                    CSS LINK PART START
+        =======================================-->
+        <!-- FAVICON -->
+        <link rel="icon" href="{% static 'en/images/favicon.png' %}">
+
+        <!-- FONTS -->
+        <link rel="stylesheet" href="{% static 'en/fonts/flaticon/flaticon.css' %}">
+        <link rel="stylesheet" href="{% static 'en/fonts/icofont/icofont.min.css' %}">
+        <link rel="stylesheet" href="{% static 'en/fonts/fontawesome/fontawesome.min.css' %}">
+
+        <!-- VENDOR -->
+        <link rel="stylesheet" href="{% static 'en/vendor/venobox/venobox.min.css' %}">
+        <link rel="stylesheet" href="{% static 'en/vendor/slickslider/slick.min.css' %}">
+        <link rel="stylesheet" href="{% static 'en/vendor/niceselect/nice-select.min.css' %}">
+        <link rel="stylesheet" href="{% static 'en/vendor/bootstrap/bootstrap.min.css' %}">
+
+        <!-- CUSTOM -->
+        <link rel="stylesheet" href="{% static 'en/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'en/css/orderlist.css' %}">
+        <!--=====================================
+                    CSS LINK PART END
+        =======================================-->
+    </head>
+    <body>
+        <div class="backdrop"></div>
+        <a class="backtop fas fa-arrow-up" href="#"></a>
+        
+        <!--=====================================
+                    HEADER TOP PART START
+        =======================================-->
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-5">
+                        <div class="header-top-welcome">
+                            <h2>Welcome to  Online Orders!</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--=====================================
+                    HEADER TOP PART END 
+        =======================================-->
+
+
+    
+
+
+        <!--=====================================
+                    MOBILE-MENU PART START
+        =======================================-->
+        <div class="mobile-menu">
+            <a href="index.html" title="Home Page">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <button class="cate-btn" title="Category List">
+                <i class="fas fa-list"></i>
+                <span>category</span>
+            </button>
+            <button class="cart-btn" title="Cartlist">
+                <i class="fas fa-shopping-basket"></i>
+                <span>cartlist</span>
+                <sup>9+</sup>
+            </button>
+            <a href="wishlist.html" title="Wishlist">
+                <i class="fas fa-heart"></i>
+                <span>wishlist</span>
+                <sup>0</sup>
+            </a>
+            <a href="compare.html" title="Compare List">
+                <i class="fas fa-random"></i>
+                <span>compare</span>
+                <sup>0</sup>
+            </a>
+        </div>
+        <!--=====================================
+                    MOBILE-MENU PART END
+        =======================================-->
+
+
+        <!--=====================================
+                    BANNER PART START
+        =======================================-->
+        <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+            <div class="container">
+                <h2>Order History</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Orderlist</li>
+                </ol>
+            </div>
+        </section>
+        <!--=====================================
+                    BANNER PART END
+        =======================================-->
+
+
+        <!--=====================================
+                    ORDERLIST PART START
+        =======================================-->
+        <section class="inner-section orderlist-part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="orderlist-filter">
+                            <h3>TOTAL <span> ( {{count}} ) Orders</span></h3>
+                            <div class="filter-short">
+                                <label class="form-label"></label>
+                                <form  method="GET" class="form">
+                                    {% csrf_token %}
+                                    {% bootstrap_form myfilter.form %}
+                                    {% buttons %}
+                                        <button type="submit" class="btn btn-success btn-lg active">Sort By</button>
+                                    {% endbuttons %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        
+                        {% for order in object_list %}              
+                            <div class="orderlist">
+                                <div class="orderlist-head">
+                                    <h3>{{order}}</h3>
+                                    <h4>Client : {{order.customer.name}}</h4>
+                                    <h4>Status : {{order.status}}</h4>
+                                </div>
+                                <div class="orderlist-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="order-track">
+                                                <ul class="order-track-list">
+                                                    <li class="order-track-item {% if order.status == 'Created' or order.status == 'Confirmed' or order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %} active {% endif %}">
+                                                        <i class="icofont-{% if order.status == 'Created' or order.status == 'Confirmed' or order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %}check{% else %}close{% endif %}"></i>
+                                                        <span>order Created</span>
+                                                    </li>
+                                                    <li class="order-track-item {% if order.status == 'Confirmed' or order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %} active {% endif %}">
+                                                        <i class="icofont-{% if order.status == 'Confirmed' or order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %}check{% else %}close{% endif %}"></i>
+                                                        <span>order Confirmed</span>
+                                                    </li>
+                                                    <li class="order-track-item {% if order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %} active {% endif %}">
+                                                        <i class="icofont-{% if order.status == 'Processed' or order.status == 'Shipped' or order.status == 'Delivered' %}check{% else %}close{% endif %}"></i>
+                                                        <span>order processed</span>
+                                                    </li>
+                                                    <li class="order-track-item {% if order.status == 'Shipped' or order.status == 'Delivered' %} active {% endif %}">
+                                                        <i class="icofont-{% if order.status == 'Shipped' or order.status == 'Delivered' %}check{% else %}close{% endif %}"></i>
+                                                        <span>order shipped</span>
+                                                    </li>
+                                                    <li class="order-track-item {% if order.status == 'Delivered' %} active {% endif %}">
+                                                        <i class="icofont-{% if order.status == 'Delivered' %}check{% else %}close{% endif %}"></i>
+                                                        <span>order delivered</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <ul class="orderlist-details">
+                                                <li>
+                                                    <h6>order id</h6>
+                                                    <p><u>{{order.code}}</u></p>
+                                                </li>
+                                                <li>
+                                                    <h6>Total Item</h6>
+                                                    <p>{{order.order_Detail.all.count}} Items</p>
+                                                </li>
+                                                <li>
+                                                    <h6>Order Time</h6>
+                                                    <p>{{order.order_time|date:'D -- d M Y' }}</p>
+                                                </li>
+                                                
+                                                <li>
+                                                    <h6>Delivery Time</h6>
+                                                    <p>{{order.delivery_time|date:'D -- d M Y' }}</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <ul class="orderlist-details">
+                                                <li>
+                                                    <h5>Sub Total</h5>
+                                                    <p>EG {{order.sup_total}}</p>
+                                                </li>
+                                                <li>
+                                                    <h6>discount</h6>
+                                                    <p> % {{order.discount}}</p>
+                                                </li>
+                                                <li>
+                                                    <h6>delivery fee</h6>
+                                                    <p>EG {{order.Delivery_Fee}}</p>
+                                                </li>
+                                                <li>
+                                                    <h4>Total</h4>
+                                                    <p>EG {{order.net_total}}</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-3">
+
+                                            <div class="orderlist-deliver">
+                                                <h6>Customer</h6>
+                                                <p>name :<u> {{order.customer.name}}</u></p>
+                                                <p>phone : {{order.customer.phone}}</p>
+                                                <p>location : {{order.customer.location}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="table-scroll">
+                                                <table class="table-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Serial</th>
+                                                            <th scope="col">Product</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Price</th>
+                                                            <th scope="col">quantity</th>
+                                                            <th scope="col">total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                        {% for object in order.order_Detail.all %}                                                       
+                                                            <tr>
+                                                                <td class="table-serial"><h6>{{forloop.counter}}</h6></td>
+                                                                <td class="table-image"><img src="{{object.product.image.url}}" alt="product"></td>
+                                                                <td class="table-name"><h6>{{object.product}}</h6></td>
+                                                                <td class="table-price"><h6>EG {{object.price}}<small></small></h6></td>
+                                                                <td class="table-quantity"><h6>{{object.quantity}}</h6></td>
+                                                                <td class="table-total"><h6>{{object.total_order}}</h6></td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="icofont-arrow-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">...</li>
+                            <li class="page-item"><a class="page-link" href="#">65</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="icofont-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--=====================================
+                    ORDERLIST PART END
+        =======================================-->
+
+
+
+
+        <!--=====================================
+                    NEWSLETTER PART START
+        =======================================-->
+        {% comment %} <section class="news-part" style="background: url(images/newsletter.jpg) no-repeat center;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-5 col-lg-6 col-xl-7">
+                        <div class="news-text">
+                            <h2>Get 20% Discount for Subscriber</h2>
+                            <p>Lorem ipsum dolor consectetur adipisicing accusantium</p>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-lg-6 col-xl-5">
+                        <form class="news-form">
+                            <input type="text" placeholder="Enter Your Email Address">
+                            <button><span><i class="icofont-ui-email"></i>Subscribe</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section> {% endcomment %}
+        <!--=====================================
+                    NEWSLETTER PART END
+        =======================================-->
+
+
+        <!--=====================================
+                    INTRO PART START
+        =======================================-->
+        <section class="intro-part">
+            <div class="container">
+                <div class="row intro-content">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="intro-wrap">
+                            <div class="intro-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="intro-content">
+                                <h5>free home delivery</h5>
+                                <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="intro-wrap">
+                            <div class="intro-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="intro-content">
+                                <h5>instant return policy</h5>
+                                <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="intro-wrap">
+                            <div class="intro-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="intro-content">
+                                <h5>quick support system</h5>
+                                <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="intro-wrap">
+                            <div class="intro-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="intro-content">
+                                <h5>secure payment way</h5>
+                                <p>Lorem ipsum dolor sit amet adipisicing elit nobis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--=====================================
+                    INTRO PART END
+        =======================================-->
+
+
+        <!--=====================================
+                     FOOTER PART START
+        =======================================-->
+        <footer class="footer-part">
+            <div class="container">
+                {% comment %} <div class="row">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            <a class="footer-logo" href="#">
+                                <img src="images/logo.png" alt="logo">
+                            </a>
+                            <p class="footer-desc">Adipisci asperiores ipsum ipsa repellat consequatur repudiandae quisquam assumenda dolor perspiciatis sit ipsum dolor amet.</p>
+                            <ul class="footer-social">
+                                <li><a class="icofont-facebook" href="#"></a></li>
+                                <li><a class="icofont-twitter" href="#"></a></li>
+                                <li><a class="icofont-linkedin" href="#"></a></li>
+                                <li><a class="icofont-instagram" href="#"></a></li>
+                                <li><a class="icofont-pinterest" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget contact">
+                            <h3 class="footer-title">contact us</h3>
+                            <ul class="footer-contact">
+                                <li>
+                                    <i class="icofont-ui-email"></i>
+                                    <p>
+                                        <span>support@greeny.com</span>
+                                        <span>carrer@greeny.com</span>
+                                    </p>
+                                </li>
+                                <li>
+                                    <i class="icofont-ui-touch-phone"></i>
+                                    <p>
+                                        <span>+120 279 532 13</span>
+                                        <span>+120 279 532 14</span>
+                                    </p>
+                                </li>
+                                <li>
+                                    <i class="icofont-location-pin"></i>
+                                    <p>1Hd- 50, 010 Avenue, NY 90001 United States</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            <h3 class="footer-title">quick Links</h3>
+                            <div class="footer-links">
+                                <ul>
+                                    <li><a href="#">My Account</a></li>
+                                    <li><a href="#">Order History</a></li>
+                                    <li><a href="#">Order Tracking</a></li>
+                                    <li><a href="#">Best Seller</a></li>
+                                    <li><a href="#">New Arrivals</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">Location</a></li>
+                                    <li><a href="#">Affiliates</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="#">Carrer</a></li>
+                                    <li><a href="#">Faq</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            <h3 class="footer-title">Download App</h3>
+                            <p class="footer-desc">Lorem ipsum dolor sit amet tenetur dignissimos ipsum eligendi autem obcaecati minus ducimus totam reprehenderit exercitationem!</p>
+                            <div class="footer-app">
+                                <a href="#"><img src="images/google-store.png" alt="google"></a>
+                                <a href="#"><img src="images/app-store.png" alt="app"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="footer-bottom">
+                            <p class="footer-copytext">&copy;  All Copyrights Reserved by <a target="_blank" href="https://www.linkedin.com/in/abdulrahman-elsharef-589050254/">Abdulrahman Elsharef</a></p>
+                            {% comment %} <div class="footer-card">
+                                <a href="#"><img src="images/payment/jpg/01.jpg" alt="payment"></a>
+                                <a href="#"><img src="images/payment/jpg/02.jpg" alt="payment"></a>
+                                <a href="#"><img src="images/payment/jpg/03.jpg" alt="payment"></a>
+                                <a href="#"><img src="images/payment/jpg/04.jpg" alt="payment"></a>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--=====================================
+                      FOOTER PART END
+        =======================================-->
+        
+
+        <!--=====================================
+                    JS LINK PART START
+        =======================================-->
+        <!-- VENDOR -->
+        <script src="{% static 'en/vendor/bootstrap/jquery-1.12.4.min.js' %}"></script>
+        <script src="{% static 'en/vendor/bootstrap/popper.min.js' %}"></script>
+        <script src="{% static 'en/vendor/bootstrap/bootstrap.min.js' %}"></script>
+        <script src="{% static 'en/vendor/countdown/countdown.min.js' %}"></script>
+        <script src="{% static 'en/vendor/niceselect/nice-select.min.js' %}"></script>
+        <script src="{% static 'en/vendor/slickslider/slick.min.js' %}"></script>
+        <script src="{% static 'en/vendor/venobox/venobox.min.js' %}"></script>
+
+        <!-- CUSTOM -->
+        <script src="{% static 'en/js/nice-select.js' %}"></script>
+        <script src="{% static 'en/js/countdown.js' %}"></script>
+        <script src="{% static 'en/js/accordion.js' %}"></script>
+        <script src="{% static 'en/js/venobox.js' %}"></script>
+        <script src="{% static 'en/js/slick.js' %}"></script>
+        <script src="{% static 'en/js/main.js' %}"></script> 
+        <!--=====================================
+                    JS LINK PART END
+        =======================================-->
+    </body>
+</html>
+
+
+
+
+
+
+
