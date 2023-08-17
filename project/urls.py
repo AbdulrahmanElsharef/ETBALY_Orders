@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from Etpaly_Orders.views import order_list
+from Etpaly_Orders.views import order_list,dashboard_with_pivot,pivot_data
 # from Altawheed_WHS.views import home
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('orders/',order_list,name='order_list'),
+    path('',dashboard_with_pivot, name='dashboard_with_pivot'),
+    path('data',pivot_data, name='pivot_data'),
     # path('', include('admin_argon.urls')),
     # path('jazzmin/', ),
     # path('home/', home, name='home'),
