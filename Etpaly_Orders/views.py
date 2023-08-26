@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Order
 from django.views.generic import ListView
 from .fillter import *
@@ -19,22 +19,21 @@ from django.core import serializers
 
 def order_list(request):
     # Retrieve all records from the database
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by("-id")
     myfilter = OrderFilter(request.GET, queryset=orders)
     orders = myfilter.qs
-    paginator = Paginator(orders, 6)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    # paginator = Paginator(orders, 10)
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
     # Render a template with the records
-    context = {'object_list': page_obj, 'count': Order.objects.all().count,
+    context = {'object_list': orders,
                'myfilter': myfilter}
-    return render(request, 'Etpaly_Orders/order_list.html', context)
+    return render(request, 'Etpaly_Orders/ordersList.html', context)
+
+def order_invoice(request, slug):
+    # Retrieve a specific record by ID
+    order = get_object_or_404(Order, slug=slug)
+    context={'order':order}
+    return render(request, 'Etpaly_Orders/invoice.html', context)
 
 
-def dashboard_with_pivot(request):
-    return render(request, 'Etpaly_Orders/dashboard_with_pivot.html', {})
-
-def pivot_data(request):
-    dataset = Order.objects.all()
-    data = serializers.serialize('json', dataset)
-    return JsonResponse(data, safe=False)

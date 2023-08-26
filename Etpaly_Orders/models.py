@@ -1,48 +1,41 @@
 from django.db import models
 from django.contrib.auth.models import User
-from utils.generate_code import generate_code
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 from django.utils.text import slugify
 
+
     
 
-# Create your models here.
+
 
 class Customer(models.Model):
-    name=models.CharField(("اسم العميل"), max_length=150)
-    phone=models.CharField(("رقم التليفون"), max_length=50)
-    location=models.TextField(("عنوان"), max_length=300)
+    name=models.CharField(_("client"), max_length=150)
+    phone=models.CharField(_("phone"), max_length=50)
+    location=models.TextField(_("Address"), max_length=300)
     
     def __str__(self) :
-        code=f"""-00{self.id}-{self.name}"""
-        return code
+        return f"""{self.name}"""
 
 
-FLAG_TYPES = (
-    ('New' , 'New'),
-    ('Feature' , 'Feature'),
-    ('Sale' , 'Sale'),
-)
+
+
 class Product(models.Model):
     name = models.CharField(_('name'),max_length=120)
-    image = models.ImageField(_('image'),upload_to='products')
+    image = models.ImageField(_('image'),upload_to='products',null=True,blank=True)
     price = models.FloatField(_('price'))
     sku = models.IntegerField(_('sku'),)
     subtitle = models.CharField(_('subtitle'),max_length=300)
-    description = models.TextField(_('description'),max_length=20000)
-    flag = models.CharField(_('flag'),max_length=10,choices=FLAG_TYPES)
-    slug = models.SlugField(null=True,blank=True)
+    # slug = models.SlugField(null=True,blank=True)
     
     def __str__(self) :
-        code=f"""00{self.id}-{self.name}"""
-        return code
+        return f"""{self.name}"""
     
-    def save(self, *args, **kwargs):
-       self.slug = slugify(self.name)
-       super(Product, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Product, self).save(*args, **kwargs)
     
 
     
@@ -56,30 +49,39 @@ ORDER_STATUS = (
 
 class Order(models.Model):
     user = models.ForeignKey(User,related_name='order_user',on_delete=models.SET_NULL,null=True,blank=True)
+    code=models.CharField(("order"), max_length=50,null=True,blank=True)
     status = models.CharField(max_length=12,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
     customer = models.ForeignKey(Customer,related_name='order_customer',on_delete=models.SET_NULL,null=True,blank=True)
     order_time = models.DateField(default=timezone.now)
     delivery_time = models.DateField(null=True,blank=True)
     discount=models.FloatField(null=True , blank=True,default=0)
     Delivery_Fee=models.FloatField(null=True , blank=True,default=0)
-    
+    slug=models.SlugField(null=True,blank=True)
+
     def __str__(self) :
-        code=f"""Order-00{self.id}"""
-        return code
+        return f"""Order-00{self.id}"""
     
+    def save(self, *args, **kwargs):
+        self.code=f"""Order-00{self.id}"""
+        self.slug = slugify(self.code)
+        super(Order, self).save(*args, **kwargs)
+
+
+        
     def sup_total(self):
-        sup = 0
+        sup= 0
         Order_detail = self.order_Detail.all()
         for order in Order_detail:
             sup += order.total_order() 
-        return sup  
+        self.sup_total=sup
+        return self.sup_total
     
     def net_total(self):
         total = 0
         Order_detail = self.order_Detail.all()
         for order in Order_detail:
             total += order.total_order() 
-        net_total=total+int(total*self.discount)/100+int(self.Delivery_Fee)
+        net_total=total-int(total*self.discount)/100+int(self.Delivery_Fee)
         return net_total
     
     
@@ -134,7 +136,7 @@ class Stock_Transaction(models.Model):
     Transaction=models.CharField( max_length=50,choices=TRANSACTION)
     quantity = models.IntegerField()
     
-   
+
     def __str__(self) :
         return str(self.item)
 
