@@ -25,17 +25,14 @@ class Customer(models.Model):
 class Product(models.Model):
     name = models.CharField(_('name'),max_length=120)
     image = models.ImageField(_('image'),upload_to='products',null=True,blank=True)
-    price = models.FloatField(_('price'))
-    sku = models.IntegerField(_('sku'),)
+    price = models.FloatField(_('price'),default=0)
+    sku = models.FloatField(_('sku'))
     subtitle = models.CharField(_('subtitle'),max_length=300)
-    # slug = models.SlugField(null=True,blank=True)
     
     def __str__(self) :
         return f"""{self.name}"""
     
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.name)
-    #     super(Product, self).save(*args, **kwargs)
+
     
 
     
@@ -48,21 +45,21 @@ ORDER_STATUS = (
 )
 
 class Order(models.Model):
-    user = models.ForeignKey(User,related_name='order_user',on_delete=models.SET_NULL,null=True,blank=True)
-    code=models.CharField(("order"), max_length=50,null=True,blank=True)
-    status = models.CharField(max_length=12,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
+    # user = models.ForeignKey(User,related_name='order_user',on_delete=models.SET_NULL,null=True,blank=True)
+    code=models.CharField(_("Order"), max_length=50,null=True,blank=True)
+    status = models.CharField(_("Status"),max_length=12,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
     customer = models.ForeignKey(Customer,related_name='order_customer',on_delete=models.SET_NULL,null=True,blank=True)
-    order_time = models.DateField(default=timezone.now)
-    delivery_time = models.DateField(null=True,blank=True)
-    discount=models.FloatField(null=True , blank=True,default=0)
-    Delivery_Fee=models.FloatField(null=True , blank=True,default=0)
+    order_date = models.DateField(_("Order_date"),default=timezone.now)
+    delivery_date = models.DateField(_("Delivery_date"),null=True,blank=True)
+    discount=models.FloatField(_("Discount"),null=True , blank=True,default=0)
+    Delivery_Fee=models.FloatField(_("Delivery_Fee"),null=True , blank=True,default=0)
     slug=models.SlugField(null=True,blank=True)
 
     def __str__(self) :
-        return f"""Order-00{self.id}"""
+        return f"""Order-{self.id}"""
     
     def save(self, *args, **kwargs):
-        self.code=f"""Order-00{self.id}"""
+        self.code=f"""Order-{self.id}"""
         self.slug = slugify(self.code)
         super(Order, self).save(*args, **kwargs)
 
@@ -87,9 +84,9 @@ class Order(models.Model):
     
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order,related_name='order_Detail',on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,related_name='order_product',on_delete=models.SET_NULL,null=True,blank=True)
-    quantity = models.IntegerField()
-    price = models.FloatField()
+    product = models.ForeignKey(Product,verbose_name='product',related_name='order_product',on_delete=models.SET_NULL,null=True,blank=True)
+    quantity = models.IntegerField(_("Quantity"),default=1)
+    price = models.FloatField(_("Price"),default=0)
 
     
     def __str__(self):
@@ -113,7 +110,7 @@ class StockItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self) :
-        code=f"""00{self.id}-{self.name}"""
+        code=f"""{self.id}-{self.name}"""
         return code
     
     def stock_total(self):

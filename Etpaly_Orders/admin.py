@@ -8,11 +8,12 @@ from .models import *
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'sku', 'subtitle']
-
+    list_filter = ['name', 'price', 'sku', ]
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['name', 'phone', 'location']
+    list_filter = ['name', 'phone', ]
 # __________________________________________________________
 
 
@@ -24,9 +25,9 @@ class OrderDetailInline(admin.TabularInline):
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
     list_display = ['__str__', 'status', 'client', 'phone',
-                    'delivery_time', 'sup', 'Delivery_Fee', 'discount_', 'total_order']
+                    'delivery_date', 'sup', 'Delivery_Fee', 'discount_', 'total_order']
     list_filter = ['code', 'status', 'customer__name',
-                   'customer__phone', 'delivery_time']
+                   'customer__phone', 'delivery_date']
     search_fields = ['customer__name', 'customer__phone']
     exclude = ('code','slug',)
     # Render filtered options only after 5 characters were entered

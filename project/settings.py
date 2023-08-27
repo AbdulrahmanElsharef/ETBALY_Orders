@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'Etpaly_Orders',
     'django_filters',
     'import_export',
-    "bootstrap4",
+    # "bootstrap4",
     # 'django_i18n',
 ]
 
@@ -138,6 +138,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 
 
 JAZZMIN_SETTINGS = {
@@ -283,6 +285,8 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     "language_chooser": False,
 }
+
+
 
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,

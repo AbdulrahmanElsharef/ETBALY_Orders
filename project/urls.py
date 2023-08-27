@@ -19,7 +19,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from Etpaly_Orders.views import order_list,order_invoice
-# from Altawheed_WHS.views import home
 
 
 urlpatterns = [
@@ -28,12 +27,6 @@ urlpatterns = [
     path('orders/',order_list,name='order_list'),
     path('orders/<slug:slug>',order_invoice,name='order_invoice'),
     
-    # path('',dashboard_with_pivot, name='dashboard_with_pivot'),
-    # path('data',pivot_data, name='pivot_data'),
-    # path('', include('admin_argon.urls')),
-    # path('jazzmin/', ),
-    # path('home/', home, name='home'),
-    # path('search/', pro_search, name='pro_search'),
 ]
 
 

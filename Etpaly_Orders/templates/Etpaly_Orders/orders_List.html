@@ -1,5 +1,4 @@
 {% load static %}
-{% load bootstrap4 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,9 +18,10 @@
                                 <form  method="GET" style="color: rgb(231, 242, 135);font: size 75px;;" >
                                     {% csrf_token %}
                                     {{ myfilter.form }}
-                                    <button type="submit" class="btn btn-secondary" style="background-color: chartreuse;font-size: large;">Search By</button>                                    <!-- {% endbuttons %} -->
+                                    <button type="submit" class="btn btn-secondary" style="background-color: chartreuse;font-size: large;">Search</button>                                    
                                 </form>
                             </div>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -46,15 +46,15 @@
     ('Shipped','Shipped'),
     < ('Delivered','Delivered') , 
 ) -->
-<!-- {% if order.code == 'Created' %} style="background-color: brown;" {% else %} style="background-color: rgb(42, 140, 165);" {% endif %} --> -->
+<!-- {% if order.code == 'Created' %} style="background-color: brown;" {% else %} style="background-color: rgb(42, 140, 165);" {% endif %} --> 
 
               {% for order in object_list %}
                 <tr >
                 <td data-th="Order Code">
-                  <a href="{% url 'order_invoice' order.slug%}">{{order.code}}</a>
+                  <a href="{% url 'order_invoice' order.slug%}">{{order}}</a>
                 </td>
                 <td data-th="Order Date">
-                    {{order.order_time|date:'D-d M Y' }}
+                    {{order.order_date|date:'D-d M Y' }}
                 </td>
                 <td data-th="Order Status">
                   {{order.status}}
@@ -66,7 +66,7 @@
                     {{order.customer.phone}}
                 </td>
                 <td data-th="Due_Date">
-                    {{order.delivery_time|date:'D-d M Y' }}
+                    {{order.delivery_date|date:'D-d M Y' }}
                 </td>
                 <td data-th="Sup_Total">
                     {{order.sup_total}}
