@@ -32,11 +32,11 @@ class orderAdmin(admin.ModelAdmin):
     exclude = ('code','slug',)
     # Render filtered options only after 5 characters were entered
 
-    def client(self, obj):
-        return obj.customer.name
+    def client(self, instance):
+        return instance.customer.name
 
-    def phone(self, obj):
-        return obj.customer.phone
+    def phone(self, instance):
+        return instance.customer.phone
 
     def total_order(self, instance):
         return instance.net_total()

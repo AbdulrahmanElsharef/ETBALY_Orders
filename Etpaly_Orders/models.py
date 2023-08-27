@@ -12,8 +12,8 @@ from django.utils.text import slugify
 
 
 class Customer(models.Model):
-    name=models.CharField(_("client"), max_length=150)
-    phone=models.CharField(_("phone"), max_length=50)
+    name=models.CharField(_("client"), max_length=100)
+    phone=models.CharField(_("phone"), max_length=14)
     location=models.TextField(_("Address"), max_length=300)
     
     def __str__(self) :
@@ -23,7 +23,7 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(_('name'),max_length=120)
+    name = models.CharField(_('name'),max_length=50)
     image = models.ImageField(_('image'),upload_to='products',null=True,blank=True)
     price = models.FloatField(_('price'),default=0)
     sku = models.FloatField(_('sku'))
