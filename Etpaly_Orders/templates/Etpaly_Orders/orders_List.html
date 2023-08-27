@@ -38,6 +38,7 @@
                 <th>Delivery</th>
                 <th>Discount</th>
                 <th>Total</th>
+                <th>Print</th>
             </tr>
                 <!-- ORDER_STATUS = (
     ('Created' , 'Created') , 
@@ -51,7 +52,7 @@
               {% for order in object_list %}
                 <tr  >
                 <td data-th="Order Code">
-                  <a href="{% url 'order_invoice' order.slug%}">{{order}}</a>
+                 {{order}}
                 </td>
                 <td data-th="Order Date">
                     {{order.order_date|date:'D-d M Y' }}
@@ -79,6 +80,9 @@
                 </td>
                 <td data-th="Total">
                     {{order.net_total}}
+                </td>
+                <td data-th="Total">
+                    <a href="{% url 'order_invoice' order.slug%}"><button type="button" style="background-color: rgb(75, 242, 95);">Print</button></a>
                 </td>
               </tr>
               {% endfor %}

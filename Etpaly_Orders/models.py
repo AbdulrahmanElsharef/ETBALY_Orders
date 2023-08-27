@@ -56,10 +56,10 @@ class Order(models.Model):
     slug=models.SlugField(null=True,blank=True)
 
     def __str__(self) :
-        return f"""Order-{self.id}"""
+        return f"""Ord-00{self.id}"""
     
     def save(self, *args, **kwargs):
-        self.code=f"""Order-{self.id}"""
+        self.code=f"""Ord-00{self.id}"""
         self.slug = slugify(self.code)
         super(Order, self).save(*args, **kwargs)
 

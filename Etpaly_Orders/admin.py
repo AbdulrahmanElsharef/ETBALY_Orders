@@ -24,7 +24,7 @@ class OrderDetailInline(admin.TabularInline):
 @admin.register(Order)
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
-    list_display = ['__str__', 'status', 'client', 'phone',
+    list_display = ['__str__', 'status','customer','client_phone', 
                     'delivery_date', 'sup', 'Delivery_Fee', 'discount_', 'total_order']
     list_filter = ['code', 'status', 'customer__name',
                    'customer__phone', 'delivery_date']
@@ -32,10 +32,10 @@ class orderAdmin(admin.ModelAdmin):
     exclude = ('code','slug',)
     # Render filtered options only after 5 characters were entered
 
-    def client(self, instance):
+    def customer(self, instance):
         return instance.customer.name
 
-    def phone(self, instance):
+    def client_phone(self, instance):
         return instance.customer.phone
 
     def total_order(self, instance):
