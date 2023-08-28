@@ -57,7 +57,7 @@
                 <td data-th="Order Date">
                     {{order.order_date|date:'D-d M Y' }}
                 </td>
-                <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(243, 245, 245);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(224, 244, 95);" {% elif order.status == 'Processed' %} style="background-color: rgb(254, 120, 120);" {% elif order.status == 'Shipped' %} style="background-color: rgb(98, 240, 121);"  {% elif order.status == 'Delivered' %} style="background-color: rgb(56, 202, 247);" {% endif %} >
+                <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(210, 211, 211);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(224, 244, 95);" {% elif order.status == 'Processed' %} style="background-color: rgb(254, 120, 120);" {% elif order.status == 'Shipped' %} style="background-color: rgb(98, 240, 121);"  {% elif order.status == 'Delivered' %} style="background-color: rgb(56, 202, 247);" {% endif %} >
                   {{order.status}}
                 </td>
                 <td data-th="Customer">

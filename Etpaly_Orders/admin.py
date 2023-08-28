@@ -29,7 +29,7 @@ class orderAdmin(admin.ModelAdmin):
     list_filter = ['code', 'status', 'customer__name',
                    'customer__phone', 'delivery_date']
     search_fields = ['customer__name', 'customer__phone']
-    exclude = ('code','slug',)
+    # exclude = ('code','slug',)
     # Render filtered options only after 5 characters were entered
 
     def customer(self, instance):
