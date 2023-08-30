@@ -46,34 +46,34 @@ from utils.generate_code import generate_code,generate_sku
 # seed_product(100)
 
 
-# def seed_Order(n):
-#     fake = Faker()# 
-#     status=('Created','Confirmed', 'Processed','Shipped','Delivered')  
-
-#     for _ in range(n):
-#         Order.objects.create(
-#             status=status[random.randint(0,4)],
-#             customer=Customer.objects.get(id=random.randint(1,70)),
-#             delivery_date=fake.date_time_this_year(),
-#             discount=random.randint(1,10) ,
-#             Delivery_Fee=round(random.uniform(10,20),2) ,
-#         )
-#     print(f"{n} seed_Order ")
-    
-# seed_Order(200)
-
-def seed_OrderDetail(n):
+def seed_Order(n):
     fake = Faker()# 
-    for _ in range(n):
-        OrderDetail.objects.create(
-            order=Order.objects.get(id=random.randint(1,230)),
-            product=Product.objects.get(id=random.randint(1,100)),
-            quantity=random.randint(1,50) ,
-            price=round(random.uniform(20.99,150.99),2) ,
+    status=('Created','Confirmed', 'Processed','Shipped','Delivered')  
+
+    for _ in len(Order.objects.all()):
+        Order.objects.create(
+            status=status[random.randint(0,4)],
+            customer=Customer.objects.get(id=random.randint(1,70)),
+            delivery_date=fake.date_time_this_year(),
+            discount=random.randint(1,10) ,
+            Delivery_Fee=round(random.uniform(10,20),2) ,
         )
-    print(f"{n} seed_OrderDetail ")
+    print(f"{n} seed_Order ")
     
-seed_OrderDetail(200)
+seed_Order(200)
+
+# def seed_OrderDetail(n):
+#     fake = Faker()# 
+#     for _ in range(n):
+#         OrderDetail.objects.create(
+#             order=Order.objects.get(id=random.randint(1,230)),
+#             product=Product.objects.get(id=random.randint(1,100)),
+#             quantity=random.randint(1,50) ,
+#             price=round(random.uniform(20.99,150.99),2) ,
+#         )
+#     print(f"{n} seed_OrderDetail ")
+    
+# seed_OrderDetail(200)
 
 
 # def seed_Job_Company(n):

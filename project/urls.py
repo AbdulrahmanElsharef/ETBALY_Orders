@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('i18n/', include('django.conf.urls.i18n')),
     path('orders/',order_list,name='order_list'),
-    path('orders/<slug:slug>',order_invoice,name='order_invoice'),
+    path('orders/<int:id>/',order_invoice,name='order_invoice'),
     
 ]
 

@@ -82,7 +82,7 @@
                     {{order.net_total}}
                 </td>
                 <td data-th="Total">
-                    <a href="{% url 'order_invoice' order.slug%}"><button type="button" style="background-color: rgb(75, 242, 95);">Print</button></a>
+                    <a href="{% url 'order_invoice' order.id %}"><button type="button" style="background-color: rgb(75, 242, 95);">Print</button></a>
                 </td>
               </tr>
               {% endfor %}

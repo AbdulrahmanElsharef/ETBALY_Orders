@@ -17,10 +17,10 @@ def order_list(request):
                'myfilter': myfilter}
     return render(request, 'Etpaly_Orders/orders_List.html', context)
 
-def order_invoice(request, slug):
+def order_invoice(request, id):
     # Retrieve a specific record by ID
-    order = get_object_or_404(Order, slug=slug)
-    context={'order':order}
+    obj = get_object_or_404(Order, id=id)
+    context={'order':obj}
     return render(request, 'Etpaly_Orders/invoice.html', context)
 
 

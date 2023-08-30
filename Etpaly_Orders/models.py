@@ -45,37 +45,17 @@ ORDER_STATUS = (
 )
 
 class Order(models.Model):
-    # user = models.ForeignKey(User,related_name='order_user',on_delete=models.SET_NULL,null=True,blank=True)
-    code=models.CharField(_("Order"), max_length=50,null=True,blank=True)
     status = models.CharField(_("Status"),max_length=12,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
     customer = models.ForeignKey(Customer,related_name='order_customer',on_delete=models.SET_NULL,null=True,blank=True)
     order_date = models.DateField(_("Order_date"),default=timezone.now)
     delivery_date = models.DateField(_("Delivery_date"),null=True,blank=True)
     discount=models.IntegerField(_("Discount"),null=True , blank=True,default=0)
     Delivery_Fee=models.FloatField(_("Delivery_Fee"),null=True , blank=True,default=0)
-    slug=models.SlugField(null=True,blank=True)
 
+
+        
     def __str__(self) :
         return f"""Ord-00{self.id}"""
-    
-    # def save(self, *args, **kwargs):
-        
-    #     super(Order, self).save(*args, **kwargs)
-# @receiver(post_save,sender=Order)
-# def create_profile(sender,instance,created,**kwargs):
-#     if created:
-#         Profile.objects.create(
-#             user=instance
-#         )
-    def save(self, *args, **kwargs):
-        if  self.id:
-            self.code=f"""Ord-00{self.id}"""
-        super(Order, self).save(*args, **kwargs)
-        
-    def save(self, *args, **kwargs):
-        if  self.id:
-            self.slug = slugify(self.code)
-        super(Order, self).save(*args, **kwargs)
 
 
         

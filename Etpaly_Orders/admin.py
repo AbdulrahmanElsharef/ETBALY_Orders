@@ -26,7 +26,7 @@ class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
     list_display = ['__str__', 'status','customer','client_phone', 
                     'delivery_date', 'sup', 'Delivery_Fee', 'discount_', 'total_order']
-    list_filter = ['code', 'status', 'customer__name',
+    list_filter = ['id', 'status', 'customer__name',
                    'customer__phone', 'delivery_date']
     search_fields = ['customer__name', 'customer__phone']
     # exclude = ('code','slug',)
