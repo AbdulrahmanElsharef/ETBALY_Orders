@@ -10,22 +10,61 @@
 <body>
     <div class="container">
         <h1>Etbaly Orders List</h1>
-                <div class="rwd-table">
+        <div class="rwd-table">
                     <div class="col-lg-12">
                         <div >
-                            <h3 style="color: aquamarine;">TOTAL <span> ( {{object_list|length}} ) Orders</span></h3>
-                            <div >
+                            <h3 style="color: aquamarine;">TOTAL <span> ( {{count}} ) Orders</span></h3>
+                            <!-- <div >
                                 <form  method="GET" style="color: rgb(231, 242, 135);font: size 75px;;" >
                                     {% csrf_token %}
                                     {{ myfilter.form }}
                                     <button type="submit" class="btn btn-secondary" style="background-color: chartreuse;font-size: large;">Search</button>                                    
                                 </form>
+                            </div> -->
+                            <div class="card card-5">
+                                <div class="card-body">
+                                    <form method="GET" action="#">
+                                        {% csrf_token %}
+                                        <!-- {{ myfilter.form }} -->
+                                        <div class="row row-space">
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Client</label>
+                                                    <input class="input--style-1" type="text" name="customer__name" placeholder="customer name">
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Client Phone</label>
+                                                    <input class="input--style-1" type="text" name="customer__phone" placeholder="customer phone">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+
+                                                <div class="input-group">
+                                                    <label class="label">Order Status</label>
+                                                    <input class="input--style-1" type="text" name="status" placeholder="Order Status">
+                                                </div>
+
+                                                <div class="input-group">
+                                                    <label class="label">Order Number</label>
+                                                    <input class="input--style-1" type="text" name="id" placeholder="Order Number">
+                                                </div>
+
+                                                <div class="col-2">
+                                                    <button class="btn-submit" type="submit">search</button>
+                                                </div>
+
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <br>
                         </div>
                     </div>
-                </div>
-          <table class="rwd-table">
+        </div>
+         <table class="rwd-table">
             <tbody>
               <tr>
                 <th>Order</th>
@@ -40,16 +79,8 @@
                 <th>Total</th>
                 <th>Print</th>
             </tr>
-                <!-- ORDER_STATUS = (
-    ('Created' , 'Created') , 
-    ('Confirmed' , 'Confirmed') , 
-    ('Processed' , 'Processed'),
-    ('Shipped','Shipped'),
-    < ('Delivered','Delivered') , 
-) -->
-<!-- {% if order.code == 'Created' %} style="background-color: brown;" {% else %} style="background-color: rgb(42, 140, 165);" {% endif %} --> 
 
-              {% for order in object_list %}
+              {% for order in page_obj %}
                 <tr  >
                 <td data-th="Order Code">
                  {{order}}
@@ -87,9 +118,33 @@
               </tr>
               {% endfor %}
             </tbody>
-          </table>
+        </table>
+        <div class="col-lg-12">
+            <p class="page-info">Showing {{page_obj|length}} of {{count}} Results</p>
+    <div style="margin-left: 100px; margin-top: 20px;">
+    {% if page_obj.has_previous %}
+        <a class="pre" href="?page={{page_obj.previous_page_number}}">Previous</a>
+    {% endif %}
+    {% for i in page_range %}
+        {% if i == page_obj.number %}
+            <span class="active">
+                <a href="?page={{i}}">{{i}}</a>
+            </span>
+        {% else%}
+            <span class="page_num">
+                <a href="?page={{i}}">{{i}}</a>
+            </span>
+        {% endif %}
+    {% endfor %}
 
+    <!--<span>{{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>-->
+
+
+    {% if page_obj.has_next %}
+        <a class="nxt" href="?page={{page_obj.next_page_number}}">Next</a>
+    {% endif %}
+</div>
         </div>
-        
+    </div>  
 </body>
 </html>

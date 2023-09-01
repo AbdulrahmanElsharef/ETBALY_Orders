@@ -3,8 +3,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.text import slugify
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 
     
@@ -72,7 +72,7 @@ class Order(models.Model):
         Order_detail = self.order_Detail.all()
         for order in Order_detail:
             total += order.total_order() 
-        net_total=total-int(total*self.discount)/100+int(self.Delivery_Fee)
+        net_total=round(total-int(total*self.discount)/100+int(self.Delivery_Fee),2)
         return net_total
     
     

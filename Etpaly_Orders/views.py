@@ -9,12 +9,12 @@ def order_list(request):
     orders = Order.objects.all().order_by("-id")
     myfilter = OrderFilter(request.GET, queryset=orders)
     orders = myfilter.qs
-    # paginator = Paginator(orders, 10)
-    # page_number = request.GET.get("page")
-    # page_obj = paginator.get_page(page_number)
+    paginator = Paginator(orders, 50)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     # Render a template with the records
-    context = {'object_list': orders,
-               'myfilter': myfilter}
+    context = {'page_obj': page_obj,
+               'myfilter': myfilter,'count':Order.objects.all().count()}
     return render(request, 'Etpaly_Orders/orders_List.html', context)
 
 def order_invoice(request, id):
