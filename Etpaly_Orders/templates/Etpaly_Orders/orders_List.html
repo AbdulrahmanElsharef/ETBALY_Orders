@@ -1,150 +1,182 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders_DashBoard</title>
+    <title>Etpaly_Orders</title>
     <link rel="stylesheet" href="{% static 'en/css/orders.css' %}">
 </head>
+
 <body>
     <div class="container">
         <h1>Etbaly Orders List</h1>
         <div class="rwd-table">
-                    <div class="col-lg-12">
-                        <div >
-                            <h3 style="color: aquamarine;">TOTAL <span> ( {{count}} ) Orders</span></h3>
-                            <!-- <div >
+            <div class="col-lg-12">
+                <div>
+                    <h3 style="color: aquamarine;">TOTAL <span> ( {{count}} ) Orders</span></h3>
+                    <!-- <div >
                                 <form  method="GET" style="color: rgb(231, 242, 135);font: size 75px;;" >
                                     {% csrf_token %}
                                     {{ myfilter.form }}
                                     <button type="submit" class="btn btn-secondary" style="background-color: chartreuse;font-size: large;">Search</button>                                    
                                 </form>
                             </div> -->
-                            <div class="card card-5">
-                                <div class="card-body">
-                                    <form method="GET" action="#">
-                                        {% csrf_token %}
-                                        <!-- {{ myfilter.form }} -->
-                                        <div class="row row-space">
-                                            <div class="col-2">
-                                                <div class="input-group">
-                                                    <label class="label">Client</label>
-                                                    <input class="input--style-1" type="text" name="customer__name" placeholder="customer name">
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="input-group">
-                                                    <label class="label">Client Phone</label>
-                                                    <input class="input--style-1" type="text" name="customer__phone" placeholder="customer phone">
-                                                </div>
-                                            </div>
+                    <div class="card card-5">
+                        <div class="card-body">
+                            <form method="GET" action="#">
+                                {% csrf_token %}
+                                <!-- {{ myfilter.form }} -->
+                                <div class="row row-space">
+                                    <div class="col-2">
+                                        <div class="input-group">
+                                            <label class="label">Client</label>
+                                            <input class="input--style-1" type="text" name="customer__name"
+                                                placeholder="customer name">
                                         </div>
-                                        <div class="row row-space">
-
-                                                <div class="input-group">
-                                                    <label class="label">Order Status</label>
-                                                    <input class="input--style-1" type="text" name="status" placeholder="Order Status">
-                                                </div>
-
-                                                <div class="input-group">
-                                                    <label class="label">Order Number</label>
-                                                    <input class="input--style-1" type="text" name="id" placeholder="Order Number">
-                                                </div>
-
-                                                <div class="col-2">
-                                                    <button class="btn-submit" type="submit">search</button>
-                                                </div>
-
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="input-group">
+                                            <label class="label">Client Phone</label>
+                                            <input class="input--style-1" type="text" name="customer__phone"
+                                                placeholder="customer phone">
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <br>
+                                <div class="row row-space">
+
+                                    <select class="input-group" name="status">
+                                        <option selected>Select Order Status menu</option>
+                                        <option value="Created" style="background-color: rgb(210, 211, 211);">Created
+                                        </option>
+                                        <option value="Confirmed" style="background-color: rgb(224, 244, 95);">Confirmed
+                                        </option>
+                                        <option value="Processed" style="background-color: rgb(254, 120, 120);">
+                                            Processed</option>
+                                        <option value="Shipped" style="background-color: rgb(98, 240, 121);">Shipped
+                                        </option>
+                                        <option value="Delivered" style="background-color: rgb(56, 202, 247);">Delivered
+                                        </option>
+                                    </select>
+
+                                    <div class="input-group">
+                                        <label class="label">Order Number</label>
+                                        <input class="input--style-1" type="text" name="id" placeholder="Order Number">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <button class="btn-submit" type="submit">search</button>
+                                    </div>
+
+                                </div>
+                            </form>
                         </div>
                     </div>
+                    <br>
+                </div>
+            </div>
         </div>
-         <table class="rwd-table">
-            <tbody>
-              <tr>
-                <th>Order</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Customer</th>
-                <th>Phone</th>
-                <th>Due_Date</th>
-                <th>Sup_Total</th>
-                <th>Delivery</th>
-                <th>Discount</th>
-                <th>Total</th>
-                <th>Print</th>
-            </tr>
+        <h3 class="page-info">Search Results {{page_obj|length}} of {{count}} Orders </h3><br>
 
-              {% for order in page_obj %}
-                <tr  >
-                <td data-th="Order Code">
-                 {{order}}
-                </td>
-                <td data-th="Order Date">
-                    {{order.order_date|date:'D-d M Y' }}
-                </td>
-                <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(210, 211, 211);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(224, 244, 95);" {% elif order.status == 'Processed' %} style="background-color: rgb(254, 120, 120);" {% elif order.status == 'Shipped' %} style="background-color: rgb(98, 240, 121);"  {% elif order.status == 'Delivered' %} style="background-color: rgb(56, 202, 247);" {% endif %} >
-                  {{order.status}}
-                </td>
-                <td data-th="Customer">
-                    {{order.customer.name}}
-                </td>
-                <td data-th="Phone">
-                    {{order.customer.phone}}
-                </td>
-                <td data-th="Due_Date">
-                    {{order.delivery_date|date:'D-d M Y' }}
-                </td>
-                <td data-th="Sup_Total">
-                    {{order.sup_total}}
-                </td>
-                <td data-th="Delivery">
-                    {{order.Delivery_Fee}}
-                </td>
-                <td data-th="Discount">
-                    % {{order.discount}}
-                </td>
-                <td data-th="Total">
-                    {{order.net_total}}
-                </td>
-                <td data-th="Total">
-                    <a href="{% url 'order_invoice' order.id %}"><button type="button" style="background-color: rgb(75, 242, 95);">Print</button></a>
-                </td>
-              </tr>
-              {% endfor %}
+        <table class="rwd-table">
+            <tbody>
+                <tr>
+                    <th>
+                        <h4>Order</h4>
+                    </th>
+                    <th>
+                        <h4>Order Date</h4>
+                    </th>
+                    <th>
+                        <h4>Customer</h4>
+                    </th>
+                    <th>
+                        <h4>Phone</h4>
+                    </th>
+                    <th>
+                        <h4>Sub Total</h4>
+                    </th>
+                    <th>
+                        <h4>Delivery</h4>
+                    </th>
+                    <th>
+                        <h4>Discount</h4>
+                    </th>
+                    <th>
+                        <h4>Total</h4>
+                    </th>
+                    <th>
+                        <h4>Due_Date</h4>
+                    </th>
+                    <th>
+                        <h4>Status</h4>
+                    </th>
+                    <th>
+                        <h4>invoice</h4>
+                    </th>
+                </tr>
+
+                {% for order in page_obj %}
+                <tr>
+                    <td data-th="Order Code">
+                        {{order}}
+                    </td>
+                    <td data-th="Order Date">
+                        {{order.order_date|date:'D-d M Y' }}
+                    </td>
+                    <td data-th="Customer">
+                        {{order.customer.name}}
+                    </td>
+                    <td data-th="Phone">
+                        {{order.customer.phone}}
+                    </td>
+                    <td data-th="Sup_Total">
+                        {{order.sup_total}}
+                    </td>
+                    <td data-th="Delivery">
+                        {{order.Delivery_Fee}}
+                    </td>
+                    <td data-th="Discount">
+                        % {{order.discount}}
+                    </td>
+                    <td data-th="Total">
+                        {{order.net_total}}
+                    </td>
+                    <td data-th="Due_Date">
+                        {{order.delivery_date|date:'D-d M Y' }}
+                    </td>
+                    <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(210, 211, 211);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(224, 244, 95);" {% elif order.status == 'Processed' %} style="background-color: rgb(254, 120, 120);" {% elif order.status == 'Shipped' %} style="background-color: rgb(98, 240, 121);" {% elif order.status == 'Delivered' %} style="background-color: rgb(56, 202, 247);" {% endif %}>
+                        <h4>{{order.status}}</h4>
+                    </td>
+                    <td data-th="Total" style="background-color: rgb(85, 162, 220); color: rgb(48, 67, 42);">
+                        <a href="{% url 'order_invoice' order.id %}"><button type="button"
+                                >Print</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
-        <div class="col-lg-12">
-            <p class="page-info">Showing {{page_obj|length}} of {{count}} Results</p>
-    <div style="margin-left: 100px; margin-top: 20px;">
-    {% if page_obj.has_previous %}
-        <a class="pre" href="?page={{page_obj.previous_page_number}}">Previous</a>
-    {% endif %}
-    {% for i in page_range %}
-        {% if i == page_obj.number %}
-            <span class="active">
-                <a href="?page={{i}}">{{i}}</a>
-            </span>
-        {% else%}
-            <span class="page_num">
-                <a href="?page={{i}}">{{i}}</a>
-            </span>
-        {% endif %}
-    {% endfor %}
+        <div class="row" style=" place-items: center;">
+            <div class="col-lg-3">
+                {% if page_obj.has_previous %}
+                <a class="pre" href="?page={{page_obj.previous_page_number}}">Back</a>
+                {% endif %}
+            </div>
 
-    <!--<span>{{page_obj.number}} of {{page_obj.paginator.num_pages}}</span>-->
-
-
-    {% if page_obj.has_next %}
-        <a class="nxt" href="?page={{page_obj.next_page_number}}">Next</a>
-    {% endif %}
-</div>
+            <div class="col-lg-6">
+                <p class="page-item"><a class="page-link active" style="width:130px; border-radius:10px" href="#">
+                        Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+                    </a></p>
+            </div>
+            <div class="col-lg-3">
+                {% if page_obj.has_next %}
+                <a class="nxt" href="?page={{page_obj.next_page_number}}">Next</a>
+                {% endif %}
+            </div>
         </div>
-    </div>  
+    </div>
+    </div>
 </body>
+
 </html>

@@ -15,7 +15,9 @@ class Customer(models.Model):
     name=models.CharField(_("client"), max_length=100)
     phone=models.CharField(_("phone"), max_length=14)
     location=models.TextField(_("Address"), max_length=300)
-    
+    email=models.EmailField(_("email"), max_length=50 ,default='no email')
+    note=models.CharField(_("note"), max_length=50,default='no note')
+
     def __str__(self) :
         return f"""{self.name}"""
 
@@ -24,11 +26,10 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(_('name'),max_length=50)
-    image = models.ImageField(_('image'),upload_to='products',null=True,blank=True)
     price = models.FloatField(_('price'),default=0)
     sku = models.CharField(_('sku'),max_length=10)
     subtitle = models.CharField(_('subtitle'),max_length=300)
-    
+    note=models.CharField(("note"), max_length=50,default='no note')
     def __str__(self) :
         return f"""{self.name}"""
     
@@ -51,8 +52,7 @@ class Order(models.Model):
     delivery_date = models.DateField(_("Delivery_date"),null=True,blank=True)
     discount=models.IntegerField(_("Discount"),null=True , blank=True,default=0)
     Delivery_Fee=models.FloatField(_("Delivery_Fee"),null=True , blank=True,default=0)
-
-
+    note=models.CharField(("note"), max_length=50,default='no note')
         
     def __str__(self) :
         return f"""Ord-00{self.id}"""
@@ -81,6 +81,7 @@ class OrderDetail(models.Model):
     product = models.ForeignKey(Product,verbose_name='product',related_name='order_product',on_delete=models.SET_NULL,null=True,blank=True)
     quantity = models.IntegerField(_("Quantity"),default=1)
     price = models.FloatField(_("Price"),default=0)
+    note=models.CharField(("note"), max_length=50,default='no note')
 
     
     def __str__(self):
@@ -93,41 +94,4 @@ class OrderDetail(models.Model):
 
 
 
-
-UNITS=(('عدد','عدد'),('كيلو','كيلو'),('روزمة','روزمة'))
-class StockItem(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    unit=models.CharField( max_length=50,choices=UNITS)
-    limit=models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    def __str__(self) :
-        code=f"""{self.id}-{self.name}"""
-        return code
-    
-    def stock_total(self):
-        in_total =0
-        out_total=0 
-        stock_total=0
-        stock_detail = self.Stock_Transaction.all()
-        for stock in stock_detail:
-            if stock.Transaction=='Stock_In':
-                in_total+=stock.quantity
-            else:
-                out_total+=stock.quantity
-        stock_total = stock_total+in_total-out_total
-        return stock_total  
-        
-
-TRANSACTION=(('Stock_In','Stock_In'),('Stock_Out','Stock_Out'))
-class Stock_Transaction(models.Model):
-    item = models.ForeignKey(StockItem, related_name='Stock_Transaction',verbose_name=("item"), on_delete=models.CASCADE)
-    Transaction=models.CharField( max_length=50,choices=TRANSACTION)
-    quantity = models.IntegerField()
-    
-
-    def __str__(self) :
-        return str(self.item)
 

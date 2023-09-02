@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'admin_argon.apps.AdminArgonConfig',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,9 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Etpaly_Orders',
     'django_filters',
-    'import_export',
-    # "bootstrap4",
-    # 'django_i18n',
+    'stock',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +136,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",
+#     # ...
+# ]
 
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 
 JAZZMIN_SETTINGS = {

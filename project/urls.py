@@ -23,7 +23,6 @@ from Etpaly_Orders.views import order_list,order_invoice
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('i18n/', include('django.conf.urls.i18n')),
     path('orders/',order_list,name='order_list'),
     path('orders/<int:id>/',order_invoice,name='order_invoice'),
     
