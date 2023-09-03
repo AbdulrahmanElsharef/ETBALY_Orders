@@ -7,8 +7,8 @@ from .models import *
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'sku', 'subtitle']
-    list_filter = ['name', 'price', 'sku', ]
+    list_display = ['name',  'sku', 'subtitle']
+    list_filter = ['name', 'sku', ]
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -24,8 +24,8 @@ class OrderDetailInline(admin.TabularInline):
 @admin.register(Order)
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
-    list_display = ['__str__', 'status','customer','client_phone', 
-                    'delivery_date', 'sup', 'Delivery_Fee', 'discount_', 'total_order']
+    list_display = ['__str__', 'status','customer',
+                    'delivery_date', 'sup', 'Delivery_Fee', 'discount', 'total_order']
     list_filter = ['id', 'status', 'customer__name',
                    'customer__phone', 'delivery_date']
     search_fields = ['customer__name', 'customer__phone']
@@ -34,18 +34,13 @@ class orderAdmin(admin.ModelAdmin):
     def customer(self, instance):
         return instance.customer.name
 
-    def client_phone(self, instance):
-        return instance.customer.phone
+
 
     def total_order(self, instance):
         return instance.net_total()
 
     def sup(self, instance):
         return instance.sup_total()
-
-    def discount_(self, instance):
-        dis = instance.sup_total*instance.discount/100
-        return dis
 
 
 # __________________________________________________________

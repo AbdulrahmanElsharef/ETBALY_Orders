@@ -15,7 +15,7 @@ class Customer(models.Model):
     name=models.CharField(_("client"), max_length=100)
     phone=models.CharField(_("phone"), max_length=14)
     location=models.TextField(_("Address"), max_length=300)
-    email=models.EmailField(_("email"), max_length=50 ,default='no email')
+    email=models.CharField(_("email"), max_length=50 ,default='no email')
     note=models.CharField(_("note"), max_length=50,default='no note')
 
     def __str__(self) :
@@ -26,9 +26,8 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(_('name'),max_length=50)
-    price = models.FloatField(_('price'),default=0)
-    sku = models.CharField(_('sku'),max_length=10)
-    subtitle = models.CharField(_('subtitle'),max_length=300)
+    sku = models.IntegerField(_('sku'),max_length=15,default=0)
+    subtitle = models.CharField(_('subtitle'),max_length=300,default='no subtitle')
     note=models.CharField(("note"), max_length=50,default='no note')
     def __str__(self) :
         return f"""{self.name}"""
@@ -51,7 +50,7 @@ class Order(models.Model):
     order_date = models.DateField(_("Order_date"),default=timezone.now)
     delivery_date = models.DateField(_("Delivery_date"),null=True,blank=True)
     discount=models.IntegerField(_("Discount"),null=True , blank=True,default=0)
-    Delivery_Fee=models.FloatField(_("Delivery_Fee"),null=True , blank=True,default=0)
+    Delivery_Fee=models.IntegerField(_("Delivery_Fee"),null=True , blank=True,default=0)
     note=models.CharField(("note"), max_length=50,default='no note')
         
     def __str__(self) :
@@ -72,14 +71,14 @@ class Order(models.Model):
         Order_detail = self.order_Detail.all()
         for order in Order_detail:
             total += order.total_order() 
-        net_total=round(total-int(total*self.discount)/100+int(self.Delivery_Fee),2)
+        net_total=round(total-int(self.discount)+int(self.Delivery_Fee),2)
         return net_total
     
     
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order,related_name='order_Detail',on_delete=models.CASCADE)
     product = models.ForeignKey(Product,verbose_name='product',related_name='order_product',on_delete=models.SET_NULL,null=True,blank=True)
-    quantity = models.IntegerField(_("Quantity"),default=1)
+    quantity = models.IntegerField(_("Quantity"),default=0)
     price = models.FloatField(_("Price"),default=0)
     note=models.CharField(("note"), max_length=50,default='no note')
 
