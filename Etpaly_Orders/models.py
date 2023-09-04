@@ -9,78 +9,86 @@ from django.utils.text import slugify
 
     
 
-
-
-class Customer(models.Model):
-    name=models.CharField(_("client"), max_length=100)
-    phone=models.CharField(_("phone"), max_length=14)
-    location=models.TextField(_("Address"), max_length=300)
-    email=models.CharField(_("email"), max_length=50 ,default='no email')
-    note=models.CharField(_("note"), max_length=50,default='no note')
+class Designer(models.Model):
+    name=models.CharField(_("Name"), max_length=50)
+    phone=models.CharField(_("Phone"), max_length=14,default='No_Phone')
+    note=models.CharField(_("Note"), max_length=50,default='No_Note')
 
     def __str__(self) :
         return f"""{self.name}"""
+    
+
+
+class Customer(models.Model):
+    company=models.CharField(_("Company"), max_length=100)
+    client=models.CharField(_("Client"), max_length=100)
+    phone=models.CharField(_("Phone"), max_length=14)
+    location=models.TextField(_("Address"), max_length=300)
+    email=models.CharField(_("Email"), max_length=50 ,default='No_Email')
+    note=models.CharField(_("Note"), max_length=50,default='No_Note')
+
+    def __str__(self) :
+        return f"""{self.company}"""
 
 
 
 
 class Product(models.Model):
-    name = models.CharField(_('name'),max_length=50)
-    sku = models.IntegerField(_('sku'),max_length=15,default=0)
-    subtitle = models.CharField(_('subtitle'),max_length=300,default='no subtitle')
-    note=models.CharField(("note"), max_length=50,default='no note')
+    name = models.CharField(_('Name'),max_length=50)
+    subtitle = models.TextField(_('Subtitle'),max_length=300,default='No_Subtitle')
+    note=models.CharField(("note"), max_length=50,default='No_Note')
     def __str__(self) :
         return f"""{self.name}"""
     
-
     
-
-    
+Customer_Active = (
+    ('WhatsApp' , 'WhatsApp') , 
+    ('FaceBook' , 'FaceBook') , 
+)   
 ORDER_STATUS = (
     ('Created' , 'Created') , 
     ('Confirmed' , 'Confirmed') , 
     ('Processed' , 'Processed'),
-    ('Shipped','Shipped'),
-    ('Delivered','Delivered') , 
+    ('Delivered','Delivered') ,
+    ('Returned','Returned'), 
+)
+ORDER_Branch = (
+    ('Etbaly_Shokran' , 'Etbaly_Shokran') , 
+    ('Melouk_Eltibah' , 'Melouk_Eltibah') , 
+    ('Print_Square' , 'Print_Square'),
 )
 
 class Order(models.Model):
+    branch=models.CharField(_("Branch"), max_length=50,choices=ORDER_Branch)
     status = models.CharField(_("Status"),max_length=12,choices=ORDER_STATUS,default=ORDER_STATUS[0][0])
+    active=models.CharField(_("Client_Active"), max_length=50,choices=Customer_Active)
     customer = models.ForeignKey(Customer,related_name='order_customer',on_delete=models.SET_NULL,null=True,blank=True)
+    designer=models.ForeignKey(Designer,related_name='order_Designer',on_delete=models.SET_NULL,null=True,blank=True)
     order_date = models.DateField(_("Order_date"),default=timezone.now)
     delivery_date = models.DateField(_("Delivery_date"),null=True,blank=True)
     discount=models.IntegerField(_("Discount"),null=True , blank=True,default=0)
-    Delivery_Fee=models.IntegerField(_("Delivery_Fee"),null=True , blank=True,default=0)
-    note=models.CharField(("note"), max_length=50,default='no note')
+    Delivery=models.IntegerField(_("Delivery"),null=True , blank=True,default=0)
+    note=models.CharField(("note"), max_length=50,default='No_Note')
         
     def __str__(self) :
         return f"""Ord-00{self.id}"""
 
-
-        
-    def sup_total(self):
-        sup= 0
-        Order_detail = self.order_Detail.all()
-        for order in Order_detail:
-            sup += order.total_order() 
-        self.sup_total=sup
-        return self.sup_total
     
     def net_total(self):
         total = 0
         Order_detail = self.order_Detail.all()
         for order in Order_detail:
             total += order.total_order() 
-        net_total=round(total-int(self.discount)+int(self.Delivery_Fee),2)
+        net_total=round(total-int(self.discount)+int(self.Delivery),2)
         return net_total
     
     
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order,related_name='order_Detail',on_delete=models.CASCADE)
     product = models.ForeignKey(Product,verbose_name='product',related_name='order_product',on_delete=models.SET_NULL,null=True,blank=True)
-    quantity = models.IntegerField(_("Quantity"),default=0)
-    price = models.FloatField(_("Price"),default=0)
-    note=models.CharField(("note"), max_length=50,default='no note')
+    quantity = models.IntegerField(_("Quantity"))
+    price = models.FloatField(_("Price"))
+    note=models.CharField(("note"), max_length=50,default='No_Note')
 
     
     def __str__(self):

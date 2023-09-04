@@ -64,16 +64,16 @@ p{
   float: left;
 	height: 60px;
 	width: 60px;
-	background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+	/* background: url(http://michaeltruong.ca/images/logo1.png) no-repeat; */
 	background-size: 60px 60px;
 }
 .clientlogo{
   float: left;
-	height: 60px;
-	width: 60px;
+	height: 100px;
+	width: 100px;
 	background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
-	background-size: 60px 60px;
-  border-radius: 50px;
+	background-size: 100px 100px;
+  border-radius: 100px;
 }
 .info{
   display: block;

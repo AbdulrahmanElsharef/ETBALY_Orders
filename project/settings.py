@@ -151,7 +151,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "Etpaly_Orders",
     "site_header": "Etpaly_Orders",
     "site_brand": "Etpaly_Orders",
-    "site_icon": "logo.jpeg",
+    "site_icon": "./etbaly.jpg",
     # Add your own branding here
     "site_logo": None,
     "welcome_sign": "Welcome to the Etpaly_Orders",

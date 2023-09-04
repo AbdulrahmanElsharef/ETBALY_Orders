@@ -16,48 +16,66 @@
             <div class="col-lg-12">
                 <div>
                     <h3 style="color: aquamarine;">TOTAL <span> ( {{count}} ) Orders</span></h3>
-                    <!-- <div >
-                                <form  method="GET" style="color: rgb(231, 242, 135);font: size 75px;;" >
-                                    {% csrf_token %}
-                                    {{ myfilter.form }}
-                                    <button type="submit" class="btn btn-secondary" style="background-color: chartreuse;font-size: large;">Search</button>                                    
-                                </form>
-                            </div> -->
                     <div class="card card-5">
                         <div class="card-body">
                             <form method="GET" action="#">
                                 {% csrf_token %}
                                 <!-- {{ myfilter.form }} -->
                                 <div class="row row-space">
-                                    <div class="col-2">
+
+                                        <div class="input-group">
+                                            <label class="label">Company</label>
+                                            <input class="input--style-1" type="text" name="customer__company"
+                                                placeholder="company name">
+                                        </div>
                                         <div class="input-group">
                                             <label class="label">Client</label>
-                                            <input class="input--style-1" type="text" name="customer__name"
-                                                placeholder="customer name">
+                                            <input class="input--style-1" type="text" name="customer__client"
+                                                placeholder="Client name">
                                         </div>
-                                    </div>
-                                    <div class="col-2">
                                         <div class="input-group">
                                             <label class="label">Client Phone</label>
                                             <input class="input--style-1" type="text" name="customer__phone"
-                                                placeholder="customer phone">
+                                                placeholder="Client phone">
+
                                         </div>
-                                    </div>
+                                        <div class="input-group">
+                                            <label class="label">Address</label>
+                                            <input class="input--style-1" type="text" name="customer__location"
+                                                placeholder="Client Address">
+
+                                        </div>
                                 </div>
                                 <div class="row row-space">
-
                                     <select class="input-group" name="status">
-                                        <option selected>Select Order Status menu</option>
-                                        <option value="Created" style="background-color: rgb(210, 211, 211);">Created
+                                        <option selected>Order_Status</option>
+                                        <option value="Created" style="background-color: rgb(233, 253, 253);">Created
                                         </option>
-                                        <option value="Confirmed" style="background-color: rgb(224, 244, 95);">Confirmed
+                                        <option value="Confirmed" style="background-color: rgb(237, 248, 118);">Confirmed
                                         </option>
-                                        <option value="Processed" style="background-color: rgb(254, 120, 120);">
+                                        <option value="Processed" style="background-color: rgb(63, 235, 206);">
                                             Processed</option>
-                                        <option value="Shipped" style="background-color: rgb(98, 240, 121);">Shipped
+                                        <option value="Delivered" style="background-color: rgb(25, 255, 75);">Delivered
                                         </option>
-                                        <option value="Delivered" style="background-color: rgb(56, 202, 247);">Delivered
+                                        <option value="Returned" style="background-color: rgb(205, 79, 79);">Returned
                                         </option>
+                                    </select>
+                                    <select class="input-group" name="branch">
+                                        <option selected>Order_Branch</option>
+                                        <option value="Etbaly_Shokran" style="background-color: rgb(141, 224, 250);" >Etbaly_Shokran
+                                        </option>
+                                        <option value="Melouk_Eltibah"style="background-color: rgb(141, 224, 250);" >Melouk_Eltibah
+                                        </option>
+                                        <option value="Print_Square"style="background-color: rgb(141, 224, 2507);" >
+                                            Print_Square</option>
+                                    </select>
+                                    <select class="input-group" name="active">
+                                        <option selected>Order_Active</option>
+                                        <option value="WhatsApp" style="background-color: rgb(141, 224, 250);" >WhatsApp
+                                        </option>
+                                        <option value="FaceBook"  style="background-color: rgb(141, 224, 250);">FaceBook
+                                        </option>
+
                                     </select>
 
                                     <div class="input-group">
@@ -81,77 +99,93 @@
 
         <table class="rwd-table">
             <tbody>
-                <tr>
-                    <th>
+                <tr style="text-align: justify;">
+                    <th >
                         <h4>Order</h4>
                     </th>
                     <th>
-                        <h4>Order Date</h4>
-                    </th>
-                    <th>
-                        <h4>Customer</h4>
-                    </th>
-                    <th>
-                        <h4>Phone</h4>
-                    </th>
-                    <th>
-                        <h4>Sub Total</h4>
-                    </th>
-                    <th>
-                        <h4>Delivery</h4>
-                    </th>
-                    <th>
-                        <h4>Discount</h4>
-                    </th>
-                    <th>
-                        <h4>Total</h4>
-                    </th>
-                    <th>
-                        <h4>Due_Date</h4>
+                        <h4>Branch</h4>
                     </th>
                     <th>
                         <h4>Status</h4>
                     </th>
                     <th>
-                        <h4>invoice</h4>
+                        <h4>Active</h4>
+                    </th>
+                    <th>
+                        <h4>Company</h4>
+                    </th>
+                    <th>
+                        <h4>Client</h4>
+                    </th>
+                    <th>
+                        <h4>Phone</h4>
+                    </th>
+                    <th>
+                        <h4>Address</h4>
+                    </th>
+                    <th>
+                        <h4>Designer</h4>
+                    </th>
+                    <th>
+                        <h4>Discount</h4>
+                    </th>
+                    <th>
+                        <h4>Delivery</h4>
+                    </th>
+                    <th>
+                        <h4>Total</h4>
+                    </th>
+                    
+                    <th>
+                        <h4>Delivery_Date</h4>
                     </th>
                 </tr>
 
                 {% for order in page_obj %}
                 <tr>
-                    <td data-th="Order Code">
-                        {{order}}
+                    <td data-th="order" style="background-color: rgb(128, 190, 237); color: rgb(3, 150, 164);">
+                        <h4><a href="{% url 'order_invoice' order.id %}">
+                            {{order}}</a> </h4>
                     </td>
-                    <td data-th="Order Date">
-                        {{order.order_date|date:'D-d M Y' }}
+                    <td data-th="Branch"  {% if order.status == 'Created' %} style="background-color: rgb(200, 200, 200);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(237, 248, 118);" {% elif order.status == 'Processed' %} style="background-color: rgb(63, 235, 206);"  {% elif order.status == 'Delivered' %} style="background-color: rgb(25, 255, 75);"  {% elif order.status == 'Returned' %} style="background-color:rgb(205, 79, 79);"  {% endif %} >
+                      <b>{{order.branch}}</b>  
                     </td>
-                    <td data-th="Customer">
-                        {{order.customer.name}}
+                    <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(200, 200, 200);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(237, 248, 118);" {% elif order.status == 'Processed' %} style="background-color: rgb(63, 235, 206);"  {% elif order.status == 'Delivered' %} style="background-color: rgb(25, 255, 75);"  {% elif order.status == 'Returned' %} style="background-color:rgb(205, 79, 79);"  {% endif %} >
+                        <b>{{order.status}}</b>
+                    </td>
+                    <td data-th="Active">
+                        <b>{{order.active}}</b>
+                    </td>
+                    <td data-th="Company">
+                        <b>{{order.customer}}</b>
+                    </td>
+                    
+                    <td data-th="Client">
+                        <b>{{order.customer.client}}</b>
                     </td>
                     <td data-th="Phone">
-                        {{order.customer.phone}}
+                        <b>{{order.customer.phone}}</b>
                     </td>
-                    <td data-th="Sup_Total">
-                        {{order.sup_total}}
+                    <td data-th="Address">
+                        <b>{{order.customer.location}}</b>
+                    </td>
+                    <td data-th="Designer">
+                        <b>{{order.designer}}</b>
+                    </td>
+                    <td data-th="discount">
+                        <b>{{order.discount}}</b>
                     </td>
                     <td data-th="Delivery">
-                        {{order.Delivery_Fee}}
-                    </td>
-                    <td data-th="Discount">
-                        {{order.discount}}
+                        <b>{{order.Delivery}}</b>
                     </td>
                     <td data-th="Total">
-                        {{order.net_total}}
+                        <b>{{order.net_total}}</b>
                     </td>
+                    
+                  
                     <td data-th="Due_Date">
-                        {{order.delivery_date|date:'D-d M Y' }}
-                    </td>
-                    <td data-th="Order Status" {% if order.status == 'Created' %} style="background-color: rgb(210, 211, 211);" {% elif order.status == 'Confirmed' %} style="background-color: rgb(224, 244, 95);" {% elif order.status == 'Processed' %} style="background-color: rgb(254, 120, 120);" {% elif order.status == 'Shipped' %} style="background-color: rgb(98, 240, 121);" {% elif order.status == 'Delivered' %} style="background-color: rgb(56, 202, 247);" {% endif %}>
-                        <h4>{{order.status}}</h4>
-                    </td>
-                    <td data-th="Total" style="background-color: rgb(85, 162, 220); color: rgb(48, 67, 42);">
-                        <a href="{% url 'order_invoice' order.id %}"><button type="button"
-                                >Print</button></a>
+                        <b>{{order.delivery_date|date:'D-d M Y' }}</b>
                     </td>
                 </tr>
                 {% endfor %}

@@ -14,17 +14,17 @@
         <div id="invoice" class="effect2">
           
           <div id="invoice-top">
-            <div class="logo"></div>
+            <div class="logo" {% if order.branch == 'Etbaly_Shokran' %} style="background-image: url({% static 'en/img/etbaly.jpg' %})" {% elif order.branch == 'Melouk_Eltibah'  %} style="background-image: url({% static 'en/img/melouk.jpg' %})" {% elif order.branch == 'Print_Square' %} style="background-image: url({% static 'en/img/print.jpg' %})"  {% endif %} ></div>
             <div class="info">
-              <h2>Etbaly_SHokran</h2>
-              <p> hello@michaeltruong.ca </br>
-                  01122334455
+              <h2><u>{{order.branch}}</u></h2>
+              <p> <br> {% if order.branch == 'Etbaly_Shokran' %} 01558861294 {% elif order.branch == 'Melouk_Eltibah'  %} 01095014781 {% elif order.branch == 'Print_Square' %} 01558261294  {% endif %}  
+                  
               </p>
             </div><!--End Info-->
             <div class="title">
-              <h1> Invoice <mark> {{order}}</mark></h1>
+              <h1> Invoice <small><u>( {{order}} )</u></small>  </h1>
               <h5>Order date: {{order.order_date|date:'D-d M Y' }}</br>
-                 Payment Due: {{order.delivery_date|date:'D-d M Y' }}</br>
+                 Delivery_Date : {{order.delivery_date|date:'D-d M Y' }}</br>
               </h5>
             </div><!--End Title-->
           </div><!--End InvoiceTop-->
@@ -33,11 +33,12 @@
           
           <div id="invoice-mid">
             
-            <div class="clientlogo"></div>
+            <!-- <div class="clientlogo"></div> -->
             <div class="info">
-              <h2>Client : {{order.customer.name}}</h2>
-              <h6>Phone : {{order.customer.phone}} </br>
-                Address : {{order.customer.location}}</br></h6>
+              <h2>Company : {{order.customer.company}}</h2>
+              <h5>Client : {{order.customer.client}}</h5>
+              <h5>Phone : {{order.customer.phone}} </br>
+                Address : {{order.customer.location}}</br></h5>
             </div>
       
       
@@ -61,17 +62,14 @@
                   <td class="tableitem"><p class="itemtext">{{item.total_order}}</p></td>
                 </tr>
                 {% endfor %}
-                <tr class="tabletitle">
-                  <td class="Rate"><h2>Total Order</h2></td>
-                  <td class="payment" colspan="3" style="text-align: center;"><h2>{{order.sup_total}}</h2></td>
+
+                <tr class="service">
+                  <td class="Rate"><h2>Discount</h2></td>
+                  <td class="payment" colspan="3" style="text-align: center;"><h2>{{order.discount}}</h2></td>
                 </tr>
                 <tr class="service">
-                  <td class="Rate"><p><b>Discount</b></p></td>
-                  <td class="payment" colspan="3" style="text-align: center;"><p><b>{{order.discount}}</b></p></td>
-                </tr>
-                <tr class="service">
-                  <td class="Rate"><p><b>Delivery_Fee</b> </p></td>
-                  <td class="payment" colspan="3" style="text-align: center;"><p><b>{{order.Delivery_Fee}}</b></p></td>
+                  <td class="Rate"><h2>Delivery</h2></td>
+                  <td class="payment" colspan="3" style="text-align: center;"><h2>{{order.Delivery}}</h2></td>
                 </tr>
                 <tr class="tabletitle">
                   <td class="Rate"><h2>Totally</h2></td>
