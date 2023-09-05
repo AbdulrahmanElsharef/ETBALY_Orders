@@ -17,7 +17,7 @@
             <div class="logo" {% if order.branch == 'Etbaly_Shokran' %} style="background-image: url({% static 'en/img/etbaly.jpg' %})" {% elif order.branch == 'Melouk_Eltibah'  %} style="background-image: url({% static 'en/img/melouk.jpg' %})" {% elif order.branch == 'Print_Square' %} style="background-image: url({% static 'en/img/print.jpg' %})"  {% endif %} ></div>
             <div class="info">
               <h2><u>{{order.branch}}</u></h2>
-              <p> <br> {% if order.branch == 'Etbaly_Shokran' %} 01558861294 {% elif order.branch == 'Melouk_Eltibah'  %} 01095014781 {% elif order.branch == 'Print_Square' %} 01558261294  {% endif %}  
+              <p> <br> {% if order.branch == 'Etbaly_Shokran' %} <b> 01558861294 </b> {% elif order.branch == 'Melouk_Eltibah'  %}  <b>  01095014781 </b> {% elif order.branch == 'Print_Square' %}  <b>  01558261294 </b> {% endif %}  
                   
               </p>
             </div><!--End Info-->
@@ -25,6 +25,7 @@
               <h1> Invoice <small><u>( {{order}} )</u></small>  </h1>
               <h5>Order date: {{order.order_date|date:'D-d M Y' }}</br>
                  Delivery_Date : {{order.delivery_date|date:'D-d M Y' }}</br>
+		 Designer_By: {{order.designer}}</br>
               </h5>
             </div><!--End Title-->
           </div><!--End InvoiceTop-->

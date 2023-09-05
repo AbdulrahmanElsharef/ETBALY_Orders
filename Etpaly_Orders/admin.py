@@ -25,6 +25,13 @@ class DesignerAdmin(admin.ModelAdmin):
     list_filter = ['name', 'phone']
 
 # __________________________________________________________
+
+@admin.register(Seller)
+class SellerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'phone']
+    list_filter = ['name', 'phone']
+
+# __________________________________________________________
 class OrderDetailInline(admin.TabularInline):
     model = OrderDetail
 
@@ -32,19 +39,19 @@ class OrderDetailInline(admin.TabularInline):
 @admin.register(Order)
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
-    list_display = ['__str__','branch','status','active','customer','PHONE','designer','order_date','discount','Delivery','Total_','delivery_date']
-    list_filter = ['id','branch','status','active','customer','customer__phone','order_date','delivery_date']
+    list_display = ['__str__','branch','status','Seller','active','customer','designer','order_date','Total_','cash','transfer','Client_Debit','Due_date',]
+    list_filter = ['id','branch','status','Seller','active','customer','designer','order_date','Due_date',]
     search_fields = ['customer', 'customer__phone']
-    # exclude=('id','note')
 
-
-    def PHONE(self, instance):
-        return instance.customer.phone
 
 
 
     def Total_(self, instance):
         return instance.net_total()
+    
+    def Client_Debit(self, instance):
+        return instance.Customer_debt()
+
 
 
 
