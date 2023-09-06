@@ -34,9 +34,15 @@
                                                 placeholder="Client name">
                                         </div>
                                         <div class="input-group">
-                                            <label class="label">Client Phone</label>
-                                            <input class="input--style-1" type="text" name="customer__phone"
-                                                placeholder="Client phone">
+                                            <label class="label">Client Phone 1</label>
+                                            <input class="input--style-1" type="text" name="customer__phone_1"
+                                                placeholder="phone 1">
+
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="label">Client Phone 2</label>
+                                            <input class="input--style-1" type="text" name="customer__phone_2"
+                                                placeholder="phone 2">
 
                                         </div>
                                         <div class="input-group">
@@ -82,6 +88,14 @@
                                         <label class="label">Order Number</label>
                                         <input class="input--style-1" type="text" name="id" placeholder="Order Number">
                                     </div>
+                                    {% comment %} <div class="input-group">
+                                        <label class="label">Order Seller</label>
+                                        <input class="input--style-1" type="text" name="seller" placeholder="Seller">
+                                    </div> {% endcomment %}
+                                    {% comment %} <div class="input-group">
+                                        <label class="label">Order Designer</label>
+                                        <input class="input--style-1" type="text" name="designer" placeholder=" Designer">
+                                    </div> {% endcomment %}
 
                                     <div class="col-2">
                                         <button class="btn-submit" type="submit">search</button>
@@ -113,6 +127,12 @@
                         <h4>Active</h4>
                     </th>
                     <th>
+                        <h4>Seller</h4>
+                    </th>
+                    <th>
+                        <h4>Designer</h4>
+                    </th>
+                    <th>
                         <h4>Company</h4>
                     </th>
                     <th>
@@ -121,30 +141,33 @@
                     <th>
                         <h4>Phone</h4>
                     </th>
-                    <th>
+                    {% comment %} <th>
                         <h4>Address</h4>
-                    </th>
+                    </th> {% endcomment %}
+                    
                     <th>
-                        <h4>Designer</h4>
-                    </th>
-                    <th>
-                        <h4>Discount</h4>
-                    </th>
-                    <th>
-                        <h4>Delivery</h4>
+                        <h4>Items</h4>
                     </th>
                     <th>
                         <h4>Total</h4>
                     </th>
-                    
                     <th>
-                        <h4>Delivery_Date</h4>
+                        <h4>Transfer</h4>
+                    </th>
+                    <th>
+                        <h4>Cash</h4>
+                    </th>
+                    <th>
+                        <h4>Debit</h4>
+                    </th>
+                    <th>
+                        <h4>Due_date</h4>
                     </th>
                 </tr>
 
                 {% for order in page_obj %}
                 <tr>
-                    <td data-th="order" style="background-color: rgb(128, 190, 237); color: rgb(3, 150, 164);">
+                    <td data-th="order" style="background-color: rgb(255,236,0); color: rgb(0,0,255);">
                         <h4><a href="{% url 'order_invoice' order.id %}">
                             {{order}}</a> </h4>
                     </td>
@@ -157,35 +180,43 @@
                     <td data-th="Active">
                         <b>{{order.active}}</b>
                     </td>
-                    <td data-th="Company">
-                        <b>{{order.customer}}</b>
-                    </td>
-                    
-                    <td data-th="Client">
-                        <b>{{order.customer.client}}</b>
-                    </td>
-                    <td data-th="Phone">
-                        <b>{{order.customer.phone}}</b>
-                    </td>
-                    <td data-th="Address">
-                        <b>{{order.customer.location}}</b>
+                    <td data-th="seller">
+                        <b>{{order.seller}}</b>
                     </td>
                     <td data-th="Designer">
                         <b>{{order.designer}}</b>
                     </td>
-                    <td data-th="discount">
-                        <b>{{order.discount}}</b>
+                    <td data-th="Company">
+                        <b>{{order.customer}}</b>
                     </td>
-                    <td data-th="Delivery">
-                        <b>{{order.Delivery}}</b>
+                    
+                    <td data-th="Client"  >
+                        <b>{{order.customer.client}}</b>
+                    </td>
+                    <td data-th="Phone">
+                        <b>{{order.customer.phone_1}}</b>
+                    </td>
+                    {% comment %} <td data-th="Address">
+                        <b>{{order.customer.location}}</b>
+                    </td> {% endcomment %}
+                    <td data-th="Items">
+                        <b>{{order.total_items}}</b>
                     </td>
                     <td data-th="Total">
                         <b>{{order.net_total}}</b>
                     </td>
-                    
-                  
+                    <td data-th="Transfer">
+                        <b>{{order.transfer}}</b>
+                    </td>
+                    <td data-th="Cash">
+                        <b>{{order.cash}}</b>
+                    </td>
+                    <td data-th="Debit"  {% if order.Customer_debt > 0 %} style="background-color:rgb(255 ,100, 100);" {% elif order.Customer_debt == 0 %} style="background-color:rgb(100 ,255, 100);" {% endif %} >
+                        <b>{{order.Customer_debt}}</b>
+                    </td>
+   
                     <td data-th="Due_Date">
-                        <b>{{order.delivery_date|date:'D-d M Y' }}</b>
+                        <b>{{order.Due_date|date:'D-d M Y' }}</b>
                     </td>
                 </tr>
                 {% endfor %}

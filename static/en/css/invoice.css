@@ -14,11 +14,11 @@ body{
 }
 ::selection {background: #f31544; color: #FFF;}
 ::moz-selection {background: #f31544; color: #FFF;}
-h1{
+/* h1{
   font-size: 1.5em;
   color: #222;
-}
-h2{font-size: .9em;}
+} */
+h2{font-size: 1.5em;}
 h3{
   font-size: 1.2em;
   font-weight: 300;
@@ -33,7 +33,7 @@ p{
 #invoiceholder{
   width:100%;
   hieght: 100%;
-  padding-top: 50px;
+  padding-top: 100px;
 }
 #headerimage{
   z-index:-1;
@@ -56,11 +56,11 @@ p{
   padding: 30px;
 }
 
-#invoice-top{min-height: 120px;}
+#invoice-top{min-height: 150px;padding-bottom: 20px;}
 #invoice-mid{min-height: 120px;}
 #invoice-bot{ min-height: 250px;}
 
-.logo{
+.logo
   float: left;
 	height: 60px;
 	width: 60px;
@@ -69,11 +69,11 @@ p{
 }
 .clientlogo{
   float: left;
-	height: 100px;
-	width: 100px;
+	height: 50px;
+	width: 50px;
 	background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
-	background-size: 100px 100px;
-  border-radius: 100px;
+	background-size: 50px 50px;
+  border-radius: 50px;
 }
 .info{
   display: block;
@@ -110,10 +110,25 @@ form{
   text-align: right;
 }
 
-
-
-
-
 .legal{
   width:70%;
 }
+
+/* /* @media print{
+  body * { visibility: hidden ;
+  }
+  /* Hide everything in the body when printing... */
+  /* #invoice-top{position: absolute;}
+  #invoice-mid{position: absolute;}
+  #invoice-bot{ position: absolute;}
+} */ 
+
+/* @media print {
+  body * {
+    display: none;
+  }
+  
+  .print-section {
+    display: block;
+  }
+} */ 

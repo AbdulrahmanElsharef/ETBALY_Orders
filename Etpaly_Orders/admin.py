@@ -7,14 +7,14 @@ from .models import *
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name',   'subtitle']
+    list_display = ['name','details']
     list_filter = ['name',  ]
     search_fields = ['name',  ]
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['company','client', 'phone', 'location']
-    list_filter = ['company','client', 'phone', ]
+    list_display = ['company','client', 'phone_1','phone_2', 'location']
+    list_filter = ['company','client', 'phone_1','phone_2' ]
     search_fields=['location',]
 # __________________________________________________________
 
@@ -39,8 +39,8 @@ class OrderDetailInline(admin.TabularInline):
 @admin.register(Order)
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
-    list_display = ['__str__','branch','status','Seller','active','customer','designer','order_date','Total_','cash','transfer','Client_Debit','Due_date',]
-    list_filter = ['id','branch','status','Seller','active','customer','designer','order_date','Due_date',]
+    list_display = ['__str__','branch','status','seller','active','customer','designer','order_date_','items','Total_','transfer','cash','Debit','Due_date_',]
+    list_filter = ['id','branch','status','seller','active','customer','designer','order_date','Due_date',]
     search_fields = ['customer', 'customer__phone']
 
 
@@ -49,11 +49,17 @@ class orderAdmin(admin.ModelAdmin):
     def Total_(self, instance):
         return instance.net_total()
     
-    def Client_Debit(self, instance):
+    def Debit(self, instance):
         return instance.Customer_debt()
 
+    def items(self, instance):
+        return instance.total_items()
 
 
-
+    def order_date_(self, obj):
+        return obj.order_date.strftime('%d-%m-%Y')
+    
+    def Due_date_(self, obj):
+        return obj.Due_date.strftime('%d-%m-%Y')
 # __________________________________________________________
 
