@@ -1,36 +1,39 @@
 from django.contrib import admin
 from .models import *
+from import_export.admin import ImportExportModelAdmin
 # Register your models here.
+
+# class TransactionInline(admin.TabularInline):
+#     model = Transaction
+    
 @admin.register(StockItem)
-class StockItemAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'name', 'unit',
-                    'total_stock', 'limit', 'stock_limit']
-    list_filter = ['name', 'unit', 'updated_at']
-    search_fields = ['name','description']
+class StockItemAdmin(ImportExportModelAdmin):
+    # inlines = [TransactionInline]
+    list_display = ['code','__str__','category','unit','price','stock_total','stock_price','created_at']
+    list_filter = ['id','name','category__name','unit__name','created_at',]
+    search_fields = ['name','description','category']
 
-    def total_stock(self, instance):
-        return instance.stock_total()
+@admin.register(Transaction)
+class Transactiondmin(ImportExportModelAdmin):
+    list_display = ['transaction','officer',"item",'quantity','date']
+    list_filter = ['transaction','officer',"item",'quantity','date']
+    search_fields = ["item",'transaction','quantity']
 
-    def stock_limit(self, instance):
-        if instance.limit >= instance.stock_total():
-            return 'Good_Stock'
-        else:
-            return "Out_Stock"
+@admin.register(Category)
+class CategoryAdmin(ImportExportModelAdmin):
+    list_display = ["name",'note']
+    list_filter = ["name"]
+    search_fields = ["name"]
+    
+@admin.register(UOM)
+class UOMAdmin(ImportExportModelAdmin):
+    list_display = ["name",'note']
+    list_filter = ["name"]
+    search_fields = ["name"]
+    
+@admin.register(Officer)
+class Officerdmin(ImportExportModelAdmin):
+    list_display = ["name",'phone','note']
+    list_filter = ["name"]
+    search_fields = ["name"]
 
-
-@admin.register(Stock_Transaction)
-class Stock_TransactionAdmin(admin.ModelAdmin):
-    list_display = ['item', 'name', 'stock_in', 'stock_out', 'quantity']
-    list_filter = ['item__name', 'Transaction']
-    search_fields = ['item__name',]
-
-    def name(self, obj):
-        return obj.item.name
-
-    def stock_in(self, obj):
-        if obj.Transaction == 'Stock_In':
-            return obj.Transaction
-
-    def stock_out(self, obj):
-        if obj.Transaction == 'Stock_Out':
-            return obj.Transaction

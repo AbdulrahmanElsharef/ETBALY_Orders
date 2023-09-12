@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Etpaly_Orders',
     'django_filters',
     'stock',
+    'import_export',
 ]
 
 MIDDLEWARE = [

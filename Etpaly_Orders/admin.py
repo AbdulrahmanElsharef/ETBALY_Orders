@@ -40,7 +40,7 @@ class OrderDetailInline(admin.TabularInline):
 class orderAdmin(admin.ModelAdmin):
     inlines = [OrderDetailInline]
     list_display = ['__str__','branch','status','seller','active','customer','designer','order_date_','items','Total_','transfer','cash','Debit','Due_date_',]
-    list_filter = ['id','branch','status','seller','active','customer','designer','order_date','Due_date',]
+    list_filter = ['id','branch','status','seller__name','active','customer','designer__name','order_date','Due_date',]
     search_fields = ['customer', 'customer__phone']
 
 
@@ -57,9 +57,13 @@ class orderAdmin(admin.ModelAdmin):
 
 
     def order_date_(self, obj):
-        return obj.order_date.strftime('%d-%m-%Y')
+        if obj.order_date:
+            return obj.order_date.strftime('%d-%m-%Y')
     
     def Due_date_(self, obj):
-        return obj.Due_date.strftime('%d-%m-%Y')
+        if obj.Due_date:
+            return obj.Due_date.strftime('%d-%m-%Y')
+
+
 # __________________________________________________________
 

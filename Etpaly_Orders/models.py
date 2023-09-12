@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.text import slugify
@@ -10,7 +9,7 @@ from django.utils.text import slugify
     
 
 class Designer(models.Model):
-    name=models.CharField(_("Name"), max_length=50)
+    name=models.CharField(_("Designer"), max_length=50,unique=True)
     phone=models.CharField(_("Phone"), max_length=14,default='No_Phone')
     note=models.CharField(_("Note"), max_length=50,default='No_Note')
 
@@ -18,7 +17,7 @@ class Designer(models.Model):
         return f"""{self.name}"""
 
 class Seller(models.Model):
-    name=models.CharField(_("Name"), max_length=50)
+    name=models.CharField(_("Seller"), max_length=50,unique=True)
     phone=models.CharField(_("Phone"), max_length=14,default='No_Phone')
     note=models.CharField(_("Note"), max_length=50,default='No_Note')
 
@@ -28,7 +27,7 @@ class Seller(models.Model):
 
 
 class Customer(models.Model):
-    company=models.CharField(_("Company"), max_length=100)
+    company=models.CharField(_("Company"), max_length=100,unique=True)
     client=models.CharField(_("Client"), max_length=100)
     phone_1=models.CharField(_("Phone 1 "), max_length=14)
     phone_2=models.CharField(_("Phone 2 "), max_length=14,default='No Phone')
@@ -42,7 +41,7 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(_('Name'),max_length=50)
+    name = models.CharField(_('Product'),max_length=50,unique=True)
     details = models.TextField(_('Details'),max_length=300,default='No_Details')
     note=models.CharField(("Note"), max_length=50,default='No_Note')
     def __str__(self) :
@@ -76,9 +75,9 @@ class Order(models.Model):
     order_date = models.DateField(_("Date"),default=timezone.now)
     transfer=models.IntegerField(_("Transfer"),default=0)
     cash=models.IntegerField(_("Cash"),default=0)
-    Due_date = models.DateField(_("Due_date"),null=True,blank=True)
     discount=models.IntegerField(_("Discount"),default=0)
     Delivery=models.IntegerField(_("Delivery"),default=0)
+    Due_date = models.DateField(_("Due_date"),null=True,blank=True)
     note=models.CharField(("Note"), max_length=50,default='No_Note')
 
         
@@ -104,6 +103,8 @@ class Order(models.Model):
         for order in Order_detail:
             total +=1
         return total
+
+    
     
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order,related_name='order_Detail',on_delete=models.CASCADE)
